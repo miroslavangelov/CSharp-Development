@@ -1,8 +1,6 @@
 ﻿using System.Globalization;
 using System.Linq;
-using System.Reflection.Metadata;
 using Newtonsoft.Json;
-using TeisterMask.Data.Models.Enums;
 using TeisterMask.DataProcessor.ExportDto;
 
 namespace TeisterMask.DataProcessor
@@ -17,28 +15,27 @@ namespace TeisterMask.DataProcessor
     {
         public static string ExportProjectWithTheirTasks(TeisterMaskContext context)
         {
-            var result = context.Projects
+            var projects = context.Projects
                 .Where(project => project.Tasks.Any())
+                .ToArray()
                 .Select(project => new ExportProjectDto
                 {
-                    TasksCount = project.Tasks.Count,
                     ProjectName = project.Name,
                     HasEndDate = project.DueDate.HasValue ? "Yes" : "No",
-                    Tasks = project.Tasks
-                        .Select(task => new ExportTaskDto
+                    TasksCount = project.Tasks.Count,
+                    Tasks = project.Tasks.Select(task => new ExportTaskDto
                         {
                             Name = task.Name,
-                            Label = task.LabelType.ToString()
+                            Label = task.LabelType.ToString(),
                         })
                         .OrderBy(task => task.Name)
-                        .ToList()
+                        .ToArray()
                 })
-                .ToList()
-                .OrderByDescending(project => project.Tasks.Count)
+                .OrderByDescending(project => project.TasksCount)
                 .ThenBy(project => project.ProjectName)
-                .ToList();
+                .ToArray();
 
-            return XMLConverter.Serialize(result, "Projects");
+            return XMLConverter.Serialize(projects, "Projects");
         }
 
         public static string ExportMostBusiestEmployees(TeisterMaskContext context, DateTime date)

@@ -7,7 +7,7 @@ namespace TeisterMask.DataProcessor.ExportDto
     [XmlType("Project")]
     public class ExportProjectDto
     {
-        [XmlElement("TasksCount")]
+        [XmlAttribute("TasksCount")]
         public int TasksCount { get; set; }
         
         [XmlElement("ProjectName")]
@@ -20,6 +20,6 @@ namespace TeisterMask.DataProcessor.ExportDto
         public string HasEndDate { get; set; }
 
         [XmlArray("Tasks")]
-        public List<ExportTaskDto> Tasks { get; set; }
+        public ExportTaskDto[] Tasks { get; set; }
     }
 }
