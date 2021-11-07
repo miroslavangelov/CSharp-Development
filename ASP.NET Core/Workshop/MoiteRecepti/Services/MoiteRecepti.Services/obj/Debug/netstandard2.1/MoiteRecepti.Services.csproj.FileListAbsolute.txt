@@ -1,0 +1,10 @@
+C:\Users\Miroslav\RiderProjects\MoiteRecepti\Services\MoiteRecepti.Services\bin\Debug\netstandard2.1\MoiteRecepti.Services.deps.json
+C:\Users\Miroslav\RiderProjects\MoiteRecepti\Services\MoiteRecepti.Services\bin\Debug\netstandard2.1\MoiteRecepti.Services.dll
+C:\Users\Miroslav\RiderProjects\MoiteRecepti\Services\MoiteRecepti.Services\bin\Debug\netstandard2.1\MoiteRecepti.Services.pdb
+C:\Users\Miroslav\RiderProjects\MoiteRecepti\Services\MoiteRecepti.Services\obj\Debug\netstandard2.1\MoiteRecepti.Services.csproj.AssemblyReference.cache
+C:\Users\Miroslav\RiderProjects\MoiteRecepti\Services\MoiteRecepti.Services\obj\Debug\netstandard2.1\MoiteRecepti.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Miroslav\RiderProjects\MoiteRecepti\Services\MoiteRecepti.Services\obj\Debug\netstandard2.1\MoiteRecepti.Services.AssemblyInfoInputs.cache
+C:\Users\Miroslav\RiderProjects\MoiteRecepti\Services\MoiteRecepti.Services\obj\Debug\netstandard2.1\MoiteRecepti.Services.AssemblyInfo.cs
+C:\Users\Miroslav\RiderProjects\MoiteRecepti\Services\MoiteRecepti.Services\obj\Debug\netstandard2.1\MoiteRecepti.Services.csproj.CoreCompileInputs.cache
+C:\Users\Miroslav\RiderProjects\MoiteRecepti\Services\MoiteRecepti.Services\obj\Debug\netstandard2.1\MoiteRecepti.Services.dll
+C:\Users\Miroslav\RiderProjects\MoiteRecepti\Services\MoiteRecepti.Services\obj\Debug\netstandard2.1\MoiteRecepti.Services.pdb

@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "UwwyjzA46CJD9mehEP8MW8rTNCgnDdz1jhDlGjPxY7N6dnMKImgpat9WNrqGMs6jhDXs4AOMJifkQN7lPZHhVQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Miroslav\\RiderProjects\\MoiteRecepti\\Services\\MoiteRecepti.Services\\MoiteRecepti.Services.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Miroslav\\.nuget\\packages\\stylecop.analyzers\\1.2.0-beta.312\\stylecop.analyzers.1.2.0-beta.312.nupkg.sha512",
+    "C:\\Users\\Miroslav\\.nuget\\packages\\stylecop.analyzers.unstable\\1.2.0.312\\stylecop.analyzers.unstable.1.2.0.312.nupkg.sha512"
+  ],
+  "logs": []
+}

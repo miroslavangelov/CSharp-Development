@@ -1,0 +1,10 @@
+C:\Users\Miroslav\RiderProjects\MoiteRecepti\Services\MoiteRecepti.Services.Messaging\bin\Debug\netstandard2.1\MoiteRecepti.Services.Messaging.deps.json
+C:\Users\Miroslav\RiderProjects\MoiteRecepti\Services\MoiteRecepti.Services.Messaging\bin\Debug\netstandard2.1\MoiteRecepti.Services.Messaging.dll
+C:\Users\Miroslav\RiderProjects\MoiteRecepti\Services\MoiteRecepti.Services.Messaging\bin\Debug\netstandard2.1\MoiteRecepti.Services.Messaging.pdb
+C:\Users\Miroslav\RiderProjects\MoiteRecepti\Services\MoiteRecepti.Services.Messaging\obj\Debug\netstandard2.1\MoiteRecepti.Services.Messaging.csproj.AssemblyReference.cache
+C:\Users\Miroslav\RiderProjects\MoiteRecepti\Services\MoiteRecepti.Services.Messaging\obj\Debug\netstandard2.1\MoiteRecepti.Services.Messaging.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Miroslav\RiderProjects\MoiteRecepti\Services\MoiteRecepti.Services.Messaging\obj\Debug\netstandard2.1\MoiteRecepti.Services.Messaging.AssemblyInfoInputs.cache
+C:\Users\Miroslav\RiderProjects\MoiteRecepti\Services\MoiteRecepti.Services.Messaging\obj\Debug\netstandard2.1\MoiteRecepti.Services.Messaging.AssemblyInfo.cs
+C:\Users\Miroslav\RiderProjects\MoiteRecepti\Services\MoiteRecepti.Services.Messaging\obj\Debug\netstandard2.1\MoiteRecepti.Services.Messaging.csproj.CoreCompileInputs.cache
+C:\Users\Miroslav\RiderProjects\MoiteRecepti\Services\MoiteRecepti.Services.Messaging\obj\Debug\netstandard2.1\MoiteRecepti.Services.Messaging.dll
+C:\Users\Miroslav\RiderProjects\MoiteRecepti\Services\MoiteRecepti.Services.Messaging\obj\Debug\netstandard2.1\MoiteRecepti.Services.Messaging.pdb
