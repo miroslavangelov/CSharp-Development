@@ -3,7 +3,7 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net5.0</TargetFramework>
-        <RootNamespace>ЕмергенцъПлан</RootNamespace>
+        <RootNamespace>EmergencyPlan</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
