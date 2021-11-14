@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
     using Wintellect.PowerCollections;
 
     public class Edge
@@ -27,7 +26,6 @@
                 .Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(int.Parse)
                 .ToArray();
-
             var edgesCount = int.Parse(Console.ReadLine());
 
             edgesByNode = ReadGraph(edgesCount);
@@ -37,7 +35,6 @@
                 .Select(int.Parse)
                 .ToArray();
             var timeInSecondsToSafeExit = inputTime[1] + (inputTime[0] * 60);
-
             var end = ExitRooms;
 
             for (int i = 0; i < nodesCount; i++)
@@ -54,10 +51,8 @@
                 }
 
                 var start = i;
-
-                var maxNode = edgesByNode.Keys.Max();
-
                 var distances = new int[edgesCount + 1];
+
                 for (int j = 0; j < distances.Length; j++)
                 {
                     distances[j] = int.MaxValue;
@@ -79,7 +74,6 @@
                 while (queue.Count > 0)
                 {
                     var minNode = queue.RemoveFirst();
-
                     var children = edgesByNode[minNode];
 
                     if (end.Contains(minNode))
@@ -117,7 +111,6 @@
                     {
                         timeOfEnds.Add(distances[end1]);
                     }
-
                     minTimeExit = timeOfEnds.Min();
                 }
                 else
@@ -174,11 +167,8 @@
 
             for (int i = 0; i < e; i++)
             {
-                var edgeData = Console.ReadLine()
-                    .Split();
-
+                var edgeData = Console.ReadLine().Split();
                 var inputTime = edgeData[2].Split(new[] { ":" }, StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
-
                 var firstNode = int.Parse(edgeData[0]);
                 var secondNode = int.Parse(edgeData[1]);
                 var weight = inputTime[1] + (inputTime[0] * 60);
