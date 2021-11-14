@@ -1,160 +1,210 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Wintellect.PowerCollections;
-
-namespace EmergencyPlan
+﻿namespace EmergencyPlan
 {
-    class Program
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Wintellect.PowerCollections;
+
+    public class Edge
     {
-        private static Dictionary<int, List<Edge>> graph = new Dictionary<int, List<Edge>>();
-        private static int[] exitRooms;
-        private static int nodesCount;
-        private static int edgesCount;
+        public int First { get; set; }
+
+        public int Second { get; set; }
+
+        public int Weight { get; set; }
+    }
+
+    public class Program
+    {
+        private static Dictionary<int, List<Edge>> edgesByNode;
+        private static int[] prev;
 
         static void Main(string[] args)
         {
-            nodesCount = int.Parse(Console.ReadLine());
-            exitRooms = Console.ReadLine().Split().Select(int.Parse).ToArray();
-            edgesCount = int.Parse(Console.ReadLine());
+            var nodesCount = int.Parse(Console.ReadLine());
+            var ExitRooms = Console.ReadLine()
+                .Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToArray();
 
-            ReadGraph(edgesCount);
-            
-            string[] inputTime = Console.ReadLine().Split(":", StringSplitOptions.RemoveEmptyEntries);
-            int timeToEvacuate = int.Parse(inputTime[0]) * 60 + int.Parse(inputTime[1]);
+            var edgesCount = int.Parse(Console.ReadLine());
 
-            for (int node = 0; node < nodesCount; node++)
+            edgesByNode = ReadGraph(edgesCount);
+
+            var inputTime = Console.ReadLine()
+                .Split(new[] { ":" }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToArray();
+            var timeInSecondsToSafeExit = inputTime[1] + (inputTime[0] * 60);
+
+            var end = ExitRooms;
+
+            for (int i = 0; i < nodesCount; i++)
             {
-                if (exitRooms.Contains(node))
+                if (ExitRooms.Contains(i))
                 {
                     continue;
                 }
 
-                if (!graph.ContainsKey(node))
+                if (!edgesByNode.ContainsKey(i))
                 {
-                    Console.WriteLine($"Unreachable {node} (N/A)");
+                    Console.WriteLine($"Unreachable {i} (N/A)");
                     continue;
                 }
 
-                int bestTime = int.MaxValue;
-                for (int j = 0; j < exitRooms.Length; j++)
-                {
-                    int currentExitRoom = exitRooms[j];
-                    int currentTIme = dijkstraAlgorithm(node, currentExitRoom);
+                var start = i;
 
-                    if (currentTIme < bestTime)
+                var maxNode = edgesByNode.Keys.Max();
+
+                var distances = new int[edgesCount + 1];
+                for (int j = 0; j < distances.Length; j++)
+                {
+                    distances[j] = int.MaxValue;
+                }
+
+                distances[start] = 0;
+
+                prev = new int[nodesCount + 1];
+                for (int j = 0; j < prev.Length; j++)
+                {
+                    prev[j] = int.MaxValue;
+                }
+
+                prev[start] = -1;
+
+                var queue = new OrderedBag<int>(Comparer<int>.Create((f, s) => distances[f] - distances[s]));
+                queue.Add(start);
+
+                while (queue.Count > 0)
+                {
+                    var minNode = queue.RemoveFirst();
+
+                    var children = edgesByNode[minNode];
+
+                    if (end.Contains(minNode))
                     {
-                        bestTime = currentTIme;
+                        break;
+                    }
+
+                    foreach (var child in children)
+                    {
+                        var childNode = child.First == minNode ? child.Second : child.First;
+
+                        if (distances[childNode] == int.MaxValue)
+                        {
+                            queue.Add(childNode);
+                        }
+
+                        var newDistance = child.Weight + distances[minNode];
+
+                        if (newDistance < distances[childNode])
+                        {
+                            distances[childNode] = newDistance;
+                            prev[childNode] = minNode;
+                            queue = new OrderedBag<int>(queue, Comparer<int>.Create((f, s) => distances[f] - distances[s]));
+                        }
                     }
                 }
 
-                if (bestTime > timeToEvacuate)
+                var minTimeExit = 0;
+
+                if (end.Length > 1)
                 {
-                    int hours = bestTime / 3600;
-                    int mins = (bestTime % 3600) / 60;
-                    bestTime = bestTime % 60;
-                    Console.WriteLine($"Unsafe {node} ({hours:D2}:{mins:D2}:{bestTime:D2})");
+                    var timeOfEnds = new List<int>();
+
+                    foreach (var end1 in end)
+                    {
+                        timeOfEnds.Add(distances[end1]);
+                    }
+
+                    minTimeExit = timeOfEnds.Min();
                 }
                 else
                 {
-                    int hours = bestTime / 3600;
-                    int mins = (bestTime % 3600) / 60;
-                    bestTime = bestTime % 60;
-                    Console.WriteLine($"Safe {node} ({hours:D2}:{mins:D2}:{bestTime:D2})");
+                    minTimeExit = distances[end[0]];
+                }
+
+                var isThereExit = false;
+
+                foreach (var end1 in end)
+                {
+                    isThereExit = prev[end1] != int.MaxValue;
+
+                    if (isThereExit == true)
+                    {
+                        break;
+                    }
+                }
+
+                if (minTimeExit < 1)
+                {
+                    continue;
+                }
+
+                if (isThereExit)
+                {
+                    if (minTimeExit > timeInSecondsToSafeExit)
+                    {
+                        int hours = minTimeExit / 3600;
+                        int mins = (minTimeExit % 3600) / 60;
+                        minTimeExit = minTimeExit % 60;
+
+                        Console.WriteLine($"Unsafe {i} ({hours:D2}:{mins:D2}:{minTimeExit:D2})");
+                    }
+                    else
+                    {
+                        int hours = minTimeExit / 3600;
+                        int mins = (minTimeExit % 3600) / 60;
+                        minTimeExit = minTimeExit % 60;
+
+                        Console.WriteLine($"Safe {i} ({hours:D2}:{mins:D2}:{minTimeExit:D2})");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Unreachable {i} (N/A)");
                 }
             }
         }
-        
-        private static int dijkstraAlgorithm(int startNode, int endNode) {
-            int[] distance = new int[edgesCount + 1];
-            int[] prev = new int[nodesCount + 1];
 
-            for (int i = 0; i < distance.Length; i++) {
-                distance[i] = int.MaxValue;
-                prev[i] = -1;
-            }
-            for (int i = 0; i < prev.Length; i++) {
-                prev[i] = -1;
-            }
-            distance[startNode] = 0;
-            var queue = new OrderedBag<int>(Comparer<int>.Create((f, s) => distance[f] - distance[s]));
-            queue.Add(startNode);
-
-            while (queue.Count > 0)
-            {
-                var minNode = queue.RemoveFirst();
-                var children = graph[minNode];
-
-                if (exitRooms.Contains(minNode))
-                {
-                    break;
-                }
-
-                foreach (var child in children)
-                {
-                    var childNode = child.First == minNode ? child.Second : child.First;
-
-                    if (distance[childNode] == int.MaxValue)
-                    {
-                        queue.Add(childNode);
-                    }
-
-                    var newDistance = child.Weight + distance[minNode];
-
-                    if (newDistance < distance[childNode])
-                    {
-                        distance[childNode] = newDistance;
-                        prev[childNode] = minNode;
-                        queue = new OrderedBag<int>(queue, Comparer<int>.Create((f, s) => distance[f] - distance[s]));
-                    }
-                }
-            }
-
-            if (prev[endNode] == -1) {
-                return 0;
-            }
-
-            return distance[endNode];
-        }
-
-        private static void ReadGraph(int edgesCount)
+        private static Dictionary<int, List<Edge>> ReadGraph(int e)
         {
-            for (int i = 0; i < edgesCount; i++)
+            var result = new Dictionary<int, List<Edge>>();
+
+            for (int i = 0; i < e; i++)
             {
-                string[] edgeParts = Console.ReadLine().Split();
-                string[] inputTime = edgeParts[2].Split(":", StringSplitOptions.RemoveEmptyEntries);
-                int from = int.Parse(edgeParts[0]);
-                int to = int.Parse(edgeParts[1]);
-                int time = int.Parse(inputTime[0]) * 60 + int.Parse(inputTime[1]);
+                var edgeData = Console.ReadLine()
+                    .Split();
 
-                if (!graph.ContainsKey(from))
+                var inputTime = edgeData[2].Split(new[] { ":" }, StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+
+                var firstNode = int.Parse(edgeData[0]);
+                var secondNode = int.Parse(edgeData[1]);
+                var weight = inputTime[1] + (inputTime[0] * 60);
+
+                if (!result.ContainsKey(firstNode))
                 {
-                    graph.Add(from, new List<Edge>());
+                    result.Add(firstNode, new List<Edge>());
                 }
 
-                if (!graph.ContainsKey(to))
+                if (!result.ContainsKey(secondNode))
                 {
-                    graph.Add(to, new List<Edge>());
+                    result.Add(secondNode, new List<Edge>());
                 }
 
-                Edge edge = new Edge
+                var edge = new Edge
                 {
-                    First = from,
-                    Second = to,
-                    Weight = time
+                    First = firstNode,
+                    Second = secondNode,
+                    Weight = weight,
                 };
-                graph[from].Add(edge);
-                graph[to].Add(edge);
+
+                result[firstNode].Add(edge);
+                result[secondNode].Add(edge);
             }
-        }
 
-        public class Edge
-        {
-            public int First { get; set; }
-
-            public int Second { get; set; }
-
-            public int Weight { get; set; }
+            return result;
         }
     }
 }
